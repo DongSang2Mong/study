@@ -1,4 +1,4 @@
-"""homework_20210105 URL Configuration
+"""nonok_project URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.1/topics/http/urls/
@@ -14,17 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-
-from django.conf.urls import url, include
-from rest_framework import routers
-from upload import views
+from django.urls import path, include
+from django.conf.urls import url
 
 from django.conf import settings
 from django.conf.urls.static import static
 
-writingRouter = routers.DefaultRouter()
-writingRouter.register(r'writings', views.WritingViewset)
+from rest_framework import routers
+from diary import views
 
 diaryRouter = routers.DefaultRouter()
 diaryRouter.register(r'diary', views.DiaryViewset)
@@ -32,10 +29,7 @@ diaryRouter.register(r'diary', views.DiaryViewset)
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    url(r'^', include(writingRouter.urls)),
     url(r'^', include(diaryRouter.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-   
-    url(r'^rest-auth/', include('rest_auth.urls')),
-    url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
